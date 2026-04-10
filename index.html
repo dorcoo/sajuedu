@@ -9,7 +9,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* 스크롤바 숨기기 (타임라인용) */
+        /* 스크롤바 숨기기 */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
@@ -79,22 +79,6 @@
             { id: 'hae', hanja: '亥', korean: '해', animal: '돼지', element: '수(水)', yinyang: '음(-)', season: '겨울 (10월)', desc: '만물이 휴식에 들어가는 초겨울의 기운입니다. 포용력이 넓고 넉넉하며, 지혜를 모으고 보이지 않는 정신적인 영역을 중시합니다.', abundanceDesc: '속마음을 지나치게 감추어 오해를 사고 우울감에 빠지기 쉬우며, 잦은 변동으로 인한 피로와 혈액순환 장애가 옵니다.' },
         ];
 
-        // 연도별 세운 데이터 (2024 ~ 2035)
-        const sewunList = [
-            { year: 2024, c: '갑', j: '진', name: '갑진(甲辰)' },
-            { year: 2025, c: '을', j: '사', name: '을사(乙巳)' },
-            { year: 2026, c: '병', j: '오', name: '병오(丙午)' },
-            { year: 2027, c: '정', j: '미', name: '정미(丁未)' },
-            { year: 2028, c: '무', j: '신', name: '무신(戊申)' },
-            { year: 2029, c: '기', j: '유', name: '기유(己酉)' },
-            { year: 2030, c: '경', j: '술', name: '경술(庚戌)' },
-            { year: 2031, c: '신', j: '해', name: '신해(辛亥)' },
-            { year: 2032, c: '임', j: '자', name: '임자(壬子)' },
-            { year: 2033, c: '계', j: '축', name: '계축(癸丑)' },
-            { year: 2034, c: '갑', j: '인', name: '갑인(甲寅)' },
-            { year: 2035, c: '을', j: '묘', name: '을묘(乙卯)' },
-        ];
-
         // 천간 합/충 관계 데이터
         const cheonganRelations = {
             '갑': { hap: '기', hapResult: '토(土)', chung: '경', chungName: '갑경충' },
@@ -141,14 +125,6 @@
             '기': '축', '경': '축', '신': '진', '임': '진', '계': '미'
         };
 
-        // 공망 판별 함수 (일주 기준)
-        function getGongmang(c, j) {
-            const cIdx = cheonganList.indexOf(c);
-            const jIdx = jijiList.indexOf(j);
-            const diff = (jIdx - cIdx + 12) % 12;
-            return [jijiList[(10 + diff) % 12], jijiList[(11 + diff) % 12]];
-        }
-
         const sipseongDict = {
             '비견': '나와 같은 기운입니다. 주체성과 독립심이 강하며, 친구나 동료와 어깨를 나란히 하는 평등한 관계를 의미합니다. 고집이 세고 자기 주장이 뚜렷합니다.',
             '겁재': '경쟁과 탈취를 상징하는 기운입니다. 강력한 경쟁심과 투쟁력을 상징하며, 목표를 향한 추진력이 대단히 강합니다. 때로는 재물을 두고 다투기도 합니다.',
@@ -160,20 +136,6 @@
             '정관': '합리적인 규율과 질서입니다. 원칙 준수를 중시하는 바른 생활의 아이콘이며, 공명정대함과 안정된 명예, 반듯한 직장을 상징합니다.',
             '편인': '특수하고 치우친 수용력입니다. 신비로운 학문이나 특수한 기술에 능하고, 뛰어난 눈치와 직관력이 있으며 한 분야에 외골수처럼 파고듭니다.',
             '정인': '나를 무조건적으로 돕는 바른 수용력입니다. 어머니의 자비로움, 도덕성을 의미하며 인내심이 강하고 전통 학문을 수용하는 데 탁월합니다.'
-        };
-
-        // 십성별 핵심 키워드 (운세용)
-        const sipseongKeywords = {
-            '비견': ['주체성 강화', '독립/새출발', '경쟁/동료'],
-            '겁재': ['경쟁 심화', '지출/손재수', '강한 투쟁력'],
-            '식신': ['활동력 증가', '의식주 풍족', '창작/표현력'],
-            '상관': ['구설수 주의', '변화와 개혁', '기존 틀 탈피'],
-            '편재': ['불규칙한 큰 재물', '활동 무대 확장', '투자/투기'],
-            '정재': ['안정적 수입', '착실한 결실', '고정 재물'],
-            '편관': ['과로/스트레스', '막중한 책임감', '명예/권력'],
-            '정관': ['승진/취업', '안정/명예', '합리적 규율'],
-            '편인': ['생각/고민 증가', '특수 문서/자격', '내면의 집중'],
-            '정인': ['윗사람의 도움', '문서/합격운', '수용/인내심']
         };
 
         const gyukgukDict = {
@@ -190,7 +152,7 @@
         };
 
         /* ==========================================
-           새로 추가된 성격 페르소나 분석용 데이터 사전
+           성격 페르소나 분석용 데이터 사전
         ========================================== */
         
         // 1. 일간 기질
@@ -297,7 +259,7 @@
             '계묘': { trait: '봄날의 메마른 대지와 새싹을 촉촉하게 적셔주는 단비나 맑은 시냇물의 형상입니다. 천성이 매우 착하고 다정다감하며, 타인을 세심하게 배려하고 돌보는 헌신적인 마음씨를 가졌습니다. 평생 먹을 복과 귀인의 도움이 끊이지 않는 복 받은 기운으로 미적 감각과 예술성도 뛰어납니다. 온화하고 대인관계가 좋지만 귀가 얇아 남의 말에 잘 흔들리며, 어려운 상황을 마주하면 우유부단하게 회피하려는 연약함이 단점입니다.', shinsal: ['천을귀인', '학당귀인', '식신', '태극귀인'] },
             '갑진': { trait: '비옥하고 촉촉한 봄의 대지 위로 강하게 뿌리를 내리고 자라나는 장대한 숲의 형상입니다. 이상과 목표가 매우 높고 독립심이 강하며, 어떤 고난과 장애물도 엄청난 뚝심과 추진력으로 밀어붙여 끝내 돌파해 내는 저력이 있습니다. 재물을 향한 집념이 대단히 강하고 자립심이 투철하여 자수성가형 리더에 적합합니다. 자존심이 하늘을 찌르고 은근히 타인을 무시하는 독단적인 기질이 있어 마찰을 빚기 쉬우니 하심(下心)이 필요합니다.', shinsal: ['백호대살', '금여', '과숙살', '평두살'] },
             '을사': { trait: '초여름 화사하게 만발한 꽃밭에서 유연하게 움직이는 뱀의 형상입니다. 예술적 감각이 뛰어나고 겉모습을 아름답게 꾸미기를 좋아하며, 화려한 표현력과 매끄러운 언변을 앞세워 다방면에서 눈부신 재능을 발휘합니다. 사교적이고 활동 반경이 넓어 외교, 방송, 예능에 소질이 있습니다. 눈치가 빠르고 실속을 잘 챙기지만, 감정 기복이 다소 심하고 인내심과 끈기가 부족해 용두사미로 끝나는 경향을 의식적으로 고쳐야 합니다.', shinsal: ['곡각살', '지살', '고란살', '십악대패'] },
-            '병오': { trait: '한여름 한가운데 가장 높이 떠서 세상의 모든 것을 태워버릴 듯 작열하는 태양(또는 붉은 말)의 형상입니다. 누구도 막을 수 없는 폭발적인 에너지와 불굴의 추진력, 그리고 주변을 압도하는 강력한 카리스마와 권위 의식을 타고났습니다. 명랑하고 불의를 참지 못하며 솔직하고 뒤끝이 없으나, 자존심이 상하면 불같이 화를 내어 모든 것을 엎어버리는 극단성이 무섭습니다. 꺾일 줄 모르는 고집을 다스리고 타인과 타협하는 법을 배워야 합니다.', shinsal: ['양인살', '양착살', '탕화살', '수옥살'] },
+            '병오': { 'trait': '한여름 한가운데 가장 높이 떠서 세상의 모든 것을 태워버릴 듯 작열하는 태양(또는 붉은 말)의 형상입니다. 누구도 막을 수 없는 폭발적인 에너지와 불굴의 추진력, 그리고 주변을 압도하는 강력한 카리스마와 권위 의식을 타고났습니다. 명랑하고 불의를 참지 못하며 솔직하고 뒤끝이 없으나, 자존심이 상하면 불같이 화를 내어 모든 것을 엎어버리는 극단성이 무섭습니다. 꺾일 줄 모르는 고집을 다스리고 타인과 타협하는 법을 배워야 합니다.', shinsal: ['양인살', '양착살', '탕화살', '수옥살'] },
             '정미': { trait: '한여름 가장 뜨거운 열기를 품고 있는 건조한 흙이나 활활 타오르는 화로의 형상입니다. 겉보기엔 한없이 조용하고 온화해 보이지만, 마음속에는 누구보다 뜨거운 열정과 집념, 그리고 엄청난 끈기를 숨기고 있는 외유내강의 표본입니다. 어떤 역경도 묵묵히 버텨내며 자신의 목표를 이루는 근성이 돋보입니다. 감정을 속으로 삼키고 참다가 한 번 터지면 걷잡을 수 없으며, 다소 욱하는 성질과 고집스러움을 융통성으로 보완해야 합니다.', shinsal: ['음양살', '비인살', '홍염살', '관성'] },
             '무신': { trait: '거대한 바위산에 단단히 박혀 있는 철광석이나 기민한 원숭이의 형상입니다. 호기심이 무척 많고 두뇌가 명석하여, 한 번 본 것은 금세 따라 하는 다재다능한 능력을 갖추고 있습니다. 스케일이 크고 배포가 넓으며 활동 반경이 커서 타향이나 외국에서 대성할 수 있습니다. 수단과 요령이 좋아 큰 재물을 다루는 데 능하지만, 너무 많은 일에 참견하다 실속을 잃기 쉽고 쓸데없는 허세나 자만심을 부리다 구설에 오를 수 있습니다.', shinsal: ['문창귀인', '지살', '고란살', '태극귀인'] },
             '기유': { trait: '정교하게 가공된 보석을 고이 품고 있는 기름진 땅이나 아름다운 화분의 형상입니다. 손재주가 타의 추종을 불허할 정도로 뛰어나며, 매사를 완벽하고 깔끔하게 처리하려는 정밀한 안목과 비판력을 지녔습니다. 성품이 순수하고 미적 감각이 돋보여 요리, 미용, 설계 등 세밀한 분야에 아주 잘 맞습니다. 다만 지나친 완벽주의와 예리한 비판으로 주변 사람을 피곤하게 만들거나 자신도 뼈, 관절 계통의 건강을 잃기 쉬우니 여유가 필요합니다.', shinsal: ['문창귀인', '장성살', '현침살', '태극귀인'] },
@@ -310,7 +272,7 @@
             '병진': { trait: '만물이 쑥쑥 자라나는 따뜻하고 습한 봄의 대지 위를 포근하게 비추는 태양의 형상입니다. 성격이 매우 명랑하고 화사하며, 친화력이 뛰어나 누구와도 잘 어울리고 남에게 베풀기를 즐깁니다. 화술이 좋고 임기응변에 강해 다방면에서 재주를 인정받으며, 일의 스케일을 크게 벌이는 것을 좋아합니다. 하지만 겉치레와 허영심이 있어 분수에 넘치는 일을 벌이다 손해를 볼 수 있고, 인내심이 다소 부족해 용두사미의 결과를 주의해야 합니다.', shinsal: ['평두살', '화개살', '퇴신', '관성'] },
             '정사': { trait: '한여름 맹렬하게 타오르는 용광로나 뜨거운 화산재(또는 붉은 뱀)의 형상입니다. 열정과 에너지가 철철 넘쳐 활동 반경이 넓으며, 감정 표현에 가식과 거짓이 없는 극도로 솔직하고 시원시원한 성품을 지녔습니다. 두뇌가 명석하고 화술이 뛰어나 사람들을 이끄는 마력과 뚝심이 대단합니다. 그러나 성질이 용광로처럼 급하고 자기주장이 너무 세서 타인과 대립하기 쉽고, 감정 폭발을 억누르지 못해 일을 그르칠 위험이 늘 도사리고 있습니다.', shinsal: ['고란살', '음양살', '역마살', '간여지동'] },
             '무오': { trait: '거대한 화산재를 뿜어내는 용암 가득한 산이나 태양 아래 달리는 붉은 말의 형상입니다. 엄청난 자존심과 함께 주위를 단번에 압도하는 강력한 에너지, 폭발적인 카리스마를 탑재했습니다. 이상이 대단히 높고 독립심이 확고하여 자신이 믿는 바를 흔들림 없이 추진합니다. 하지만 아집이 하늘을 찌르고 타인을 은근히 무시하는 경향이 있어 적을 만들기 쉬우며, 다혈질적인 기질 탓에 돌이킬 수 없는 실수나 관재구설에 엮이는 것을 각별히 조심해야 합니다.', shinsal: ['양인살', '탕화살', '효신살', '태극귀인'] },
-            '기미': { trait: '수분이 한 방울도 없이 바짝 메마른 한여름의 사막이나 뜨거운 흙의 형상입니다. 겉보기엔 부드럽고 차분해 보이나, 속으로는 그 뜨거운 열기만큼이나 대단한 끈기, 치밀함, 그리고 누구도 꺾지 못할 강인한 고집을 꽉 움켜쥐고 있습니다. 묵묵히 고난을 참고 견뎌내는 인내력이 초인적이며 자수성가형 인물이 많습니다. 그러나 메마른 기운 때문에 속이 답답하고 건조하여 매사에 부정적이거나 융통성이 결여되는 점, 그리고 위장 장애를 유의해야 합니다.', shinsal: ['비인살', '화개살', '음양살', '간여지동'] },
+            '기미': { trait: '수분이 한 방울도 없이 바짝 메마른 한여름의 사막이나 뜨거운 흙의 형상입니다. 겉보기엔 부드럽고 차분해 보이나, 속로는 그 뜨거운 열기만큼이나 대단한 끈기, 치밀함, 그리고 누구도 꺾지 못할 강인한 고집을 꽉 움켜쥐고 있습니다. 묵묵히 고난을 참고 견뎌내는 인내력이 초인적이며 자수성가형 인물이 많습니다. 그러나 메마른 기운 때문에 속이 답답하고 건조하여 매사에 부정적이거나 융통성이 결여되는 점, 그리고 위장 장애를 유의해야 합니다.', shinsal: ['비인살', '화개살', '음양살', '간여지동'] },
             '경신': { trait: '가을의 서늘한 기운을 가득 품은 무쇠산이나 날카롭고 거대한 도끼의 형상입니다. 숙살지기(肅殺之氣: 가을철 만물을 떨어뜨리는 기운)의 극치로, 의리가 대단하고 결단력과 강직함이 타의 추종을 불허합니다. 불의를 참지 못하고 정면으로 승부하며 무리를 이끄는 우두머리 기질이 출중합니다. 그러나 성격이 칼날같이 예리하고 강압적이라 매사에 모 아니면 도 식으로 끊어내어 대인관계에서 큰 파찰을 빚고 적을 많이 만드는 단점이 있습니다.', shinsal: ['건록', '역마살', '간여지동', '십악대패'] },
             '신유': { trait: '불순물이 하나도 섞이지 않고 정교하게 제련된 최고급 보석이나 빛나는 칼날의 형상입니다. 깔끔하고 예리하며 극단적인 완벽주의 성향을 지녀, 티끌 같은 실수도 용납하지 않고 철저하게 파고듭니다. 심미안이 탁월하고 손재주가 좋아 정밀한 일에 두각을 나타냅니다. 호불호가 얼음처럼 명확하고 맺고 끊음이 섬뜩할 정도로 예리하여 타인에게 씻을 수 없는 상처를 주기도 하며, 예민한 신경 탓에 스스로 고립되고 외로움을 자초하기 쉽습니다.', shinsal: ['건록', '도화살', '음양살', '간여지동'] },
             '임술': { trait: '깊은 호수나 강물을 가득 품고 있는 거대한 가을 산의 형상입니다. 상황을 꿰뚫어 보는 선견지명, 영감, 통찰력이 대단히 뛰어나며, 위기에 처할수록 강력한 기백과 지혜로움을 폭발시킵니다. 책임감이 강하고 배포가 넓어 무리를 호령하고 큰 재물을 다루는 솜씨가 탁월합니다. 하지만 자신의 지혜와 힘을 맹신하여 남을 무시하거나 무리한 투자를 벌여 큰 낭패를 볼 수 있고, 겉은 화려하나 속마음은 아무도 모르게 철저히 숨기는 편입니다.', shinsal: ['백호대살', '괴강살', '퇴신', '관성'] },
@@ -367,14 +329,11 @@
 
         // 전체 상태 관리
         let state = {
-            activeTab: 'personality', // 초기 탭을 성격 분석으로 설정
+            activeTab: 'cheongan', // 초기 탭 설정 변경
             selectedCheongan: cheonganData[0],
             selectedJiji: jijiData[0],
             comboCheongan: cheonganData[0],
             comboJiji: jijiData[0],
-            daewunCheongan: cheonganData[0],
-            daewunJiji: jijiData[0],
-            selectedYear: 2026,
             // 8글자 입력 상태
             sajuInput: {
                 yearC: cheonganData[0], yearJ: jijiData[0],
@@ -385,7 +344,7 @@
             selectingSlot: null // 어떤 칸을 입력 중인지 (예: 'yearC')
         };
 
-        // 기존 탭 전환 함수
+        // 탭 전환 함수
         window.setActiveTab = function(tab) {
             state.activeTab = tab;
             state.selectingSlot = null; // 탭 전환 시 선택창 닫기
@@ -397,9 +356,6 @@
         window.setSelectedJiji = function(id) { state.selectedJiji = jijiData.find(item => item.id === id); renderApp(); };
         window.setComboCheongan = function(id) { state.comboCheongan = cheonganData.find(item => item.id === id); renderApp(); };
         window.setComboJiji = function(id) { state.comboJiji = jijiData.find(item => item.id === id); renderApp(); };
-        window.setDaewunCheongan = function(id) { state.daewunCheongan = cheonganData.find(item => item.id === id); renderApp(); };
-        window.setDaewunJiji = function(id) { state.daewunJiji = jijiData.find(item => item.id === id); renderApp(); };
-        window.setSelectedYear = function(year) { state.selectedYear = year; renderApp(); };
 
         // --- 성격 분석용 8글자 세팅 함수 ---
         window.setSelectingSlot = function(slot) {
@@ -414,7 +370,7 @@
                 const slot = state.selectingSlot;
                 state.sajuInput[slot] = data;
 
-                // 새로 추가된 로직: 육십갑자 음양 짝맞추기 자동 보정
+                // 육십갑자 음양 짝맞추기 자동 보정
                 const prefix = slot.slice(0, -1); // 'year', 'month', 'day', 'hour'
                 const isC = slot.endsWith('C');
                 const pairedSlot = isC ? prefix + 'J' : prefix + 'C';
@@ -422,10 +378,8 @@
 
                 if (pairedData.yinyang !== data.yinyang) {
                     if (isC) {
-                        // 천간이 바뀌어 지지의 음양이 안 맞으면, 같은 음양의 첫 번째 지지로 자동 변경
                         state.sajuInput[pairedSlot] = jijiData.find(j => j.yinyang === data.yinyang);
                     } else {
-                        // 지지가 바뀌어 천간의 음양이 안 맞으면, 같은 음양의 첫 번째 천간으로 자동 변경
                         state.sajuInput[pairedSlot] = cheonganData.find(c => c.yinyang === data.yinyang);
                     }
                 }
@@ -435,7 +389,7 @@
             }
         };
 
-        // 미니 노드 렌더링 (기존)
+        // 미니 노드 렌더링
         function renderMiniNode(koreanName, isCheongan) {
             if (!koreanName || koreanName === '없음') {
                 return `<div class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center bg-neutral-100 text-neutral-400 rounded-full text-xs font-medium border border-neutral-200">없음</div>`;
@@ -451,7 +405,7 @@
             `;
         }
 
-        // 기존 십성 계산기 1
+        // 기존 십성 계산기
         function getSipseong(stem, branch) {
             const sIdx = elementsArray.indexOf(stem.element);
             const bIdx = elementsArray.indexOf(branch.element);
@@ -512,9 +466,8 @@
         }
 
         /* ==========================================
-           새로 추가된 성격 알고리즘 계산 함수
+           성격 알고리즘 계산 함수
         ========================================== */
-        
         function calculatePersonality(saju) {
             const dayMaster = saju.dayC; // 일간 (기준)
             const pillars = [
@@ -593,7 +546,7 @@
         // --- 메인 렌더링 함수 ---
         function renderApp() {
             const app = document.getElementById('app');
-            const { activeTab, selectedCheongan, selectedJiji, comboCheongan, comboJiji, daewunCheongan, daewunJiji, selectedYear } = state;
+            const { activeTab, selectedCheongan, selectedJiji, comboCheongan, comboJiji } = state;
             const isComboValid = comboCheongan.yinyang === comboJiji.yinyang;
             const currentGapjaName = comboCheongan.korean + comboJiji.korean;
             const gapjaInfo = gapjaDetails[currentGapjaName];
@@ -607,14 +560,12 @@
                 <header class="mb-8 text-center">
                     <h1 class="text-3xl md:text-4xl font-bold mb-3 text-neutral-900">종각님의 사주 분석 솔루션</h1>
                     <p class="text-neutral-600 text-sm md:text-base">
-                        천간과 지지를 탐색하고, 나만의 성격 페르소나와 시간의 흐름(운세)을 깊이 있게 분석해보세요.
+                        천간과 지지를 탐색하고, 나만의 성격 페르소나와 명리 이론을 깊이 있게 분석해보세요.
                     </p>
                 </header>
 
                 <div class="flex flex-wrap justify-center gap-2 mb-8">
-                    <button onclick="setActiveTab('personality')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'personality' ? 'bg-sky-600 text-white scale-105 ring-2 ring-sky-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-sky-50 border border-neutral-200'}">
-                        <i data-lucide="brain-circuit" class="w-5 h-5 mr-2"></i> 성격 요약 알고리즘
-                    </button>
+                    <!-- 순서 변경: 천간 -> 지지 -> 조합기 -> 십성론 -> 성격 알고리즘 -->
                     <button onclick="setActiveTab('cheongan')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'cheongan' ? 'bg-indigo-600 text-white scale-105 ring-2 ring-indigo-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-indigo-50 border border-neutral-200'}">
                         <i data-lucide="compass" class="w-5 h-5 mr-2"></i> 천간 (天干)
                     </button>
@@ -624,24 +575,28 @@
                     <button onclick="setActiveTab('combiner')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'combiner' ? 'bg-emerald-600 text-white scale-105 ring-2 ring-emerald-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-emerald-50 border border-neutral-200'}">
                         <i data-lucide="book-open" class="w-5 h-5 mr-2"></i> 육십갑자 조합기
                     </button>
-                    <button onclick="setActiveTab('timeline')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'timeline' ? 'bg-violet-600 text-white scale-105 ring-2 ring-violet-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-violet-50 border border-neutral-200'}">
-                        <i data-lucide="clock" class="w-5 h-5 mr-2"></i> 대운/세운 분석
+                    <button onclick="setActiveTab('theory')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'theory' ? 'bg-pink-600 text-white scale-105 ring-2 ring-pink-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-pink-50 border border-neutral-200'}">
+                        <i data-lucide="book-open-check" class="w-5 h-5 mr-2"></i> 십성/육친론
+                    </button>
+                    <button onclick="setActiveTab('personality')" class="flex items-center px-4 py-2.5 rounded-full font-bold transition-all duration-300 shadow-sm ${activeTab === 'personality' ? 'bg-sky-600 text-white scale-105 ring-2 ring-sky-300 ring-offset-2' : 'bg-white text-neutral-600 hover:bg-sky-50 border border-neutral-200'}">
+                        <i data-lucide="brain-circuit" class="w-5 h-5 mr-2"></i> 성격 요약 알고리즘
                     </button>
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-xl p-4 md:p-8">
             `;
 
-            if (activeTab === 'personality') {
-                html += renderPersonalityTab();
-            } else if (activeTab === 'cheongan') {
+            // 바뀐 순서대로 렌더링
+            if (activeTab === 'cheongan') {
                 html += renderCheonganTab(selectedCheongan);
             } else if (activeTab === 'jiji') {
                 html += renderJijiTab(selectedJiji);
             } else if (activeTab === 'combiner') {
                 html += renderCombinerTab(comboCheongan, comboJiji, isComboValid, gapjaInfo, currentGapjaName, sipseongInfo);
-            } else if (activeTab === 'timeline') {
-                html += renderTimelineTab(comboCheongan, comboJiji, isComboValid, daewunCheongan, daewunJiji, selectedYear);
+            } else if (activeTab === 'theory') {
+                html += renderTheoryTab();
+            } else if (activeTab === 'personality') {
+                html += renderPersonalityTab();
             }
 
             html += `</div>`;
@@ -649,16 +604,255 @@
             lucide.createIcons();
             
             // 프로그레스 바 너비 애니메이션 적용
-            setTimeout(() => {
-                const bars = document.querySelectorAll('.progress-bar-fill');
-                bars.forEach(bar => {
-                    bar.style.width = bar.getAttribute('data-width');
-                });
-            }, 100);
+            if (activeTab === 'personality') {
+                setTimeout(() => {
+                    const bars = document.querySelectorAll('.progress-bar-fill');
+                    bars.forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-width');
+                    });
+                }, 100);
+            }
         }
 
         /* ==========================================
-           새로 추가된 성격 탭 렌더링 함수
+           이론(십성/육친론) 탭 렌더링 함수
+        ========================================== */
+        function renderTheoryTab() {
+            return `
+                <div>
+                    <div class="mb-6 border-l-4 border-pink-500 pl-4">
+                        <h2 class="text-2xl font-bold mb-2">십성 원리 및 사주 육친론(六親論)</h2>
+                        <p class="text-neutral-600">사주의 핵심인 십성이 어떻게 산출되는지, 그리고 인간관계에 어떻게 적용되는지 확인해보세요.</p>
+                    </div>
+
+                    <!-- 1. 십성 구하는 법 -->
+                    <div class="mb-10">
+                        <h3 class="text-xl font-bold text-pink-800 mb-4 flex items-center">
+                            <i data-lucide="calculator" class="w-5 h-5 mr-2"></i> 십성(十星) 구하는 법
+                        </h3>
+                        <p class="text-neutral-700 leading-relaxed mb-4">
+                            십성은 <b>일간(태어난 날의 천간, 즉 '나')</b>을 기준으로 다른 7글자의 오행(목, 화, 토, 금, 수)과 음양(+,-)이 
+                            나와 어떤 생극제화(生剋制化) 관계를 맺고 있는지를 분석하여 10가지 이름으로 분류한 것입니다.
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-pink-50 border border-pink-100 p-4 rounded-xl shadow-sm">
+                                <h4 class="font-bold text-pink-800 mb-2 border-b border-pink-200 pb-1">오행의 상생상극 (기준: 나)</h4>
+                                <ul class="text-sm text-neutral-700 space-y-2">
+                                    <li><span class="font-bold text-green-700">비화(比和):</span> 나와 <b>같은</b> 오행 (비견, 겁재)</li>
+                                    <li><span class="font-bold text-red-700">아생(我生):</span> 내가 <b>생(生)해주는</b> 오행 (식신, 상관)</li>
+                                    <li><span class="font-bold text-yellow-700">아극(我剋):</span> 내가 <b>극(剋)하는</b> 오행 (편재, 정재)</li>
+                                    <li><span class="font-bold text-slate-700">극아(剋我):</span> 나를 <b>극(剋)하는</b> 오행 (편관, 정관)</li>
+                                    <li><span class="font-bold text-blue-700">생아(生我):</span> 나를 <b>생(生)해주는</b> 오행 (편인, 정인)</li>
+                                </ul>
+                            </div>
+                            <div class="bg-pink-50 border border-pink-100 p-4 rounded-xl shadow-sm flex flex-col justify-center">
+                                <h4 class="font-bold text-pink-800 mb-2 border-b border-pink-200 pb-1">음양의 비교</h4>
+                                <p class="text-sm text-neutral-700 leading-relaxed">
+                                    오행의 관계를 파악한 후, 일간(나)과 해당 글자의 음양이 <b>같으면(+,+ 또는 -,-) '편(偏)'이나 '비/식'</b>이 붙고, 
+                                    <b>다르면(+,- 또는 -,+) '정(正)'이나 '겁/상'</b>이 붙어 최종 십성이 결정됩니다.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 십성 도출 표 -->
+                        <div class="overflow-x-auto bg-white border border-neutral-200 rounded-xl shadow-sm mb-6">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-neutral-100 text-neutral-700">
+                                    <tr>
+                                        <th class="px-4 py-3 border-b text-center w-1/4">오행 관계</th>
+                                        <th class="px-4 py-3 border-b border-l text-center w-1/4">음양이 같을 때<br/><span class="text-xs font-normal text-neutral-500">(+,+ 또는 -,-)</span></th>
+                                        <th class="px-4 py-3 border-b border-l text-center w-1/4">음양이 다를 때<br/><span class="text-xs font-normal text-neutral-500">(+,- 또는 -,+)</span></th>
+                                        <th class="px-4 py-3 border-b border-l w-1/4">핵심 키워드</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="hover:bg-neutral-50">
+                                        <td class="px-4 py-3 border-b font-bold text-center bg-green-50 text-green-800">나와 같은 오행<br/>(비겁)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">비견 (比肩)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">겁재 (劫財)</td>
+                                        <td class="px-4 py-3 border-b border-l text-neutral-600">주체성, 고집, 친구, 경쟁자</td>
+                                    </tr>
+                                    <tr class="hover:bg-neutral-50">
+                                        <td class="px-4 py-3 border-b font-bold text-center bg-red-50 text-red-800">내가 낳는 오행<br/>(식상)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">식신 (食神)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">상관 (傷官)</td>
+                                        <td class="px-4 py-3 border-b border-l text-neutral-600">표현력, 창의성, 재능, 의식주</td>
+                                    </tr>
+                                    <tr class="hover:bg-neutral-50">
+                                        <td class="px-4 py-3 border-b font-bold text-center bg-yellow-50 text-yellow-800">내가 통제하는 오행<br/>(재성)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">편재 (偏財)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">정재 (正財)</td>
+                                        <td class="px-4 py-3 border-b border-l text-neutral-600">목표, 결과, 재물, 통솔력</td>
+                                    </tr>
+                                    <tr class="hover:bg-neutral-50">
+                                        <td class="px-4 py-3 border-b font-bold text-center bg-slate-50 text-slate-800">나를 통제하는 오행<br/>(관성)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">편관 (偏官)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">정관 (正官)</td>
+                                        <td class="px-4 py-3 border-b border-l text-neutral-600">책임감, 명예, 규율, 참을성</td>
+                                    </tr>
+                                    <tr class="hover:bg-neutral-50">
+                                        <td class="px-4 py-3 border-b font-bold text-center bg-blue-50 text-blue-800">나를 낳는 오행<br/>(인성)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">편인 (偏印)</td>
+                                        <td class="px-4 py-3 border-b border-l text-center font-bold">정인 (正印)</td>
+                                        <td class="px-4 py-3 border-b border-l text-neutral-600">수용성, 학문, 생각, 자격증</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 추가된 일간 오행별 십성 예시표 -->
+                        <div class="bg-white border border-pink-200 rounded-xl p-5 shadow-sm">
+                            <h4 class="font-bold text-pink-800 mb-3 flex items-center border-b border-pink-100 pb-2">
+                                <i data-lucide="lightbulb" class="w-4 h-4 mr-1.5 text-pink-500"></i> 일간(나)의 오행에 따른 십성 예시
+                            </h4>
+                            <p class="text-sm text-neutral-600 mb-3">내 사주의 핵심 글자인 <b>일간(태어난 날의 천간)</b>이 어떤 오행인지에 따라 다른 글자들의 십성이 다음과 같이 결정됩니다.</p>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-center border-collapse">
+                                    <thead class="bg-pink-50 text-pink-900 border-b border-pink-200">
+                                        <tr>
+                                            <th class="p-2 border-r border-pink-100">일간(나)의 오행</th>
+                                            <th class="p-2 border-r border-pink-100 text-green-700">비겁<br><span class="text-xs font-normal">(나와 같음)</span></th>
+                                            <th class="p-2 border-r border-pink-100 text-red-700">식상<br><span class="text-xs font-normal">(내가 생함)</span></th>
+                                            <th class="p-2 border-r border-pink-100 text-yellow-700">재성<br><span class="text-xs font-normal">(내가 극함)</span></th>
+                                            <th class="p-2 border-r border-pink-100 text-slate-700">관성<br><span class="text-xs font-normal">(나를 극함)</span></th>
+                                            <th class="p-2 text-blue-700">인성<br><span class="text-xs font-normal">(나를 생함)</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-neutral-700">
+                                        <tr class="border-b border-neutral-100">
+                                            <td class="p-2 border-r border-pink-100 font-bold bg-green-50 text-green-800">목(木) <span class="text-xs font-normal text-neutral-500">(갑,을)</span></td>
+                                            <td class="p-2 border-r border-pink-100 bg-green-50/30 font-semibold">목(木)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-red-50/30">화(火)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-yellow-50/30">토(土)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-slate-50/30">금(金)</td>
+                                            <td class="p-2 bg-blue-50/30">수(水)</td>
+                                        </tr>
+                                        <tr class="border-b border-neutral-100">
+                                            <td class="p-2 border-r border-pink-100 font-bold bg-red-50 text-red-800">화(火) <span class="text-xs font-normal text-neutral-500">(병,정)</span></td>
+                                            <td class="p-2 border-r border-pink-100 bg-red-50/30 font-semibold">화(火)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-yellow-50/30">토(土)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-slate-50/30">금(金)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-blue-50/30">수(水)</td>
+                                            <td class="p-2 bg-green-50/30">목(木)</td>
+                                        </tr>
+                                        <tr class="border-b border-neutral-100">
+                                            <td class="p-2 border-r border-pink-100 font-bold bg-yellow-50 text-yellow-800">토(土) <span class="text-xs font-normal text-neutral-500">(무,기)</span></td>
+                                            <td class="p-2 border-r border-pink-100 bg-yellow-50/30 font-semibold">토(土)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-slate-50/30">금(金)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-blue-50/30">수(水)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-green-50/30">목(木)</td>
+                                            <td class="p-2 bg-red-50/30">화(火)</td>
+                                        </tr>
+                                        <tr class="border-b border-neutral-100">
+                                            <td class="p-2 border-r border-pink-100 font-bold bg-slate-50 text-slate-800">금(金) <span class="text-xs font-normal text-neutral-500">(경,신)</span></td>
+                                            <td class="p-2 border-r border-pink-100 bg-slate-50/30 font-semibold">금(金)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-blue-50/30">수(水)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-green-50/30">목(木)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-red-50/30">화(火)</td>
+                                            <td class="p-2 bg-yellow-50/30">토(土)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-2 border-r border-pink-100 font-bold bg-blue-50 text-blue-800">수(水) <span class="text-xs font-normal text-neutral-500">(임,계)</span></td>
+                                            <td class="p-2 border-r border-pink-100 bg-blue-50/30 font-semibold">수(水)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-green-50/30">목(木)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-red-50/30">화(火)</td>
+                                            <td class="p-2 border-r border-pink-100 bg-yellow-50/30">토(土)</td>
+                                            <td class="p-2 bg-slate-50/30">금(金)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-3 text-xs text-neutral-600 bg-neutral-50 p-2 rounded border border-neutral-100">
+                                <span class="font-bold text-pink-700">예시:</span> 내가 만약 <b>갑목(甲木)</b> 일간으로 태어났다면?<br>
+                                내 사주에 있는 <b>화(火)</b> 오행 글자들은 나의 재능과 활동력을 의미하는 <b>'식상'</b>이 되고, <b>금(金)</b> 오행 글자들은 나를 통제하는 규칙인 <b>'관성'</b>이 됩니다.
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- 2. 사주 육친론 -->
+                    <div>
+                        <h3 class="text-xl font-bold text-pink-800 mb-4 flex items-center">
+                            <i data-lucide="users" class="w-5 h-5 mr-2"></i> 사주 육친론 (六親論)
+                        </h3>
+                        <p class="text-neutral-700 leading-relaxed mb-4">
+                            육친론은 십성을 인간관계(부모, 형제, 배우자, 자식 등)와 사회적 역할에 대입하여 해석하는 이론입니다. 
+                            남성과 여성이 각각 사회와 가정에서 맺는 전통적 관계의 차이 때문에 남녀에 따라 육친의 해석이 일부 달라집니다.
+                        </p>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- 남자의 육친 -->
+                            <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 shadow-sm">
+                                <h4 class="font-bold text-blue-800 text-lg mb-3 flex items-center border-b border-blue-200 pb-2">
+                                    <i data-lucide="user" class="w-5 h-5 mr-2"></i> 남성 기준 육친론
+                                </h4>
+                                <ul class="space-y-4">
+                                    <li>
+                                        <div class="font-bold text-neutral-800">비겁 (비견, 겁재)</div>
+                                        <div class="text-sm text-neutral-600">나 자신, 형제자매, 동성 친구, 동료, 경쟁자</div>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-neutral-800">식상 (식신, 상관)</div>
+                                        <div class="text-sm text-neutral-600">아랫사람, 부하 직원, 장모님, 조모</div>
+                                        <p class="text-[11px] text-blue-600 mt-1">* 내가 생해주는 기운이므로 내가 돌보고 키우는 대상을 의미합니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-blue-700 bg-blue-100 inline-block px-2 py-0.5 rounded">재성 (편재, 정재) ★</div>
+                                        <div class="text-sm text-neutral-600 mt-1"><b>아내(배우자), 애인, 아버지</b></div>
+                                        <p class="text-[11px] text-blue-600 mt-1">* 내가 책임지고 관리(통제)하는 가족 구성원입니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-blue-700 bg-blue-100 inline-block px-2 py-0.5 rounded">관성 (편관, 정관) ★</div>
+                                        <div class="text-sm text-neutral-600 mt-1"><b>자식(아들, 딸), 조카, 직장 상사</b></div>
+                                        <p class="text-[11px] text-blue-600 mt-1">* 남자는 재성(아내)이 생해주는 대상이 자식이므로, 재성이 낳은 관성이 자식이 됩니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-neutral-800">인성 (편인, 정인)</div>
+                                        <div class="text-sm text-neutral-600">어머니, 이모, 스승, 나를 돕는 귀인</div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- 여자의 육친 -->
+                            <div class="bg-red-50 border border-red-200 rounded-xl p-5 shadow-sm">
+                                <h4 class="font-bold text-red-800 text-lg mb-3 flex items-center border-b border-red-200 pb-2">
+                                    <i data-lucide="user" class="w-5 h-5 mr-2"></i> 여성 기준 육친론
+                                </h4>
+                                <ul class="space-y-4">
+                                    <li>
+                                        <div class="font-bold text-neutral-800">비겁 (비견, 겁재)</div>
+                                        <div class="text-sm text-neutral-600">나 자신, 형제자매, 동성 친구, 동료, 경쟁자</div>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-red-700 bg-red-100 inline-block px-2 py-0.5 rounded">식상 (식신, 상관) ★</div>
+                                        <div class="text-sm text-neutral-600 mt-1"><b>자식(아들, 딸), 아랫사람</b></div>
+                                        <p class="text-[11px] text-red-600 mt-1">* 여자는 내 몸(일간)에서 직접 낳는 기운인 식상이 자식이 됩니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-neutral-800">재성 (편재, 정재)</div>
+                                        <div class="text-sm text-neutral-600">아버지, 시어머니</div>
+                                        <p class="text-[11px] text-red-600 mt-1">* 관성(남편)을 낳아주는 기운이 재성이므로 시어머니가 됩니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-red-700 bg-red-100 inline-block px-2 py-0.5 rounded">관성 (편관, 정관) ★</div>
+                                        <div class="text-sm text-neutral-600 mt-1"><b>남편(배우자), 애인, 직장 상사</b></div>
+                                        <p class="text-[11px] text-red-600 mt-1">* 나를 통제하고 보호하며, 가정을 책임지는 역할로 봅니다.</p>
+                                    </li>
+                                    <li>
+                                        <div class="font-bold text-neutral-800">인성 (편인, 정인)</div>
+                                        <div class="text-sm text-neutral-600">어머니, 이모, 스승, 나를 돕는 귀인</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==========================================
+           성격 탭 렌더링 함수
         ========================================== */
         function renderPersonalityTab() {
             const si = state.sajuInput;
@@ -893,7 +1087,7 @@
             `;
         }
 
-        // 기존 탭 렌더링 함수들 유지 (renderCheonganTab, renderJijiTab, renderCombinerTab, renderTimelineTab)
+        // 기존 탭 렌더링 함수들 유지 (renderCheonganTab, renderJijiTab, renderCombinerTab)
         function renderCheonganTab(selected) {
             let gridHtml = cheonganData.map(item => {
                 const colors = elementColors[item.element];
@@ -1273,227 +1467,6 @@
                                     </p>
                                 </div>
                             `}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderTimelineTab(comboCheongan, comboJiji, isComboValid, daewunCheongan, daewunJiji, selectedYear) {
-            if (!isComboValid) {
-                return `
-                    <div>
-                        <div class="mb-6 border-l-4 border-violet-500 pl-4">
-                            <h2 class="text-2xl font-bold mb-2">대운/세운 분석 시뮬레이터</h2>
-                            <p class="text-neutral-600">시간의 흐름에 따른 내 운세의 변화를 분석합니다.</p>
-                        </div>
-                        <div class="py-12 text-center bg-white rounded-xl border border-neutral-200">
-                            <i data-lucide="alert-triangle" class="w-12 h-12 text-red-400 mx-auto mb-4"></i>
-                            <h3 class="text-xl font-bold text-red-800 mb-2">먼저 유효한 일주를 선택해 주세요.</h3>
-                            <p class="text-neutral-600">
-                                육십갑자 조합기 탭에서 올바른 천간과 지지를 조합하여 <br>
-                                기준이 되는 <b>일주(태어난 날)</b>를 완성해야 운세 시뮬레이션이 가능합니다.
-                            </p>
-                            <button onclick="setActiveTab('combiner')" class="mt-6 px-6 py-2 bg-emerald-600 text-white rounded-lg font-bold hover:bg-emerald-700 transition-colors">
-                                조합기로 돌아가기
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 공망 및 입묘 판별 계산
-            const myGongmang = getGongmang(comboCheongan.korean, comboJiji.korean);
-            const myIpmyo = ipmyoMap[comboCheongan.korean];
-
-            // 대운 선택 UI 생성
-            let dCheonganGrid = cheonganData.map(item => {
-                const isMatch = daewunCheongan.id === item.id;
-                const colors = elementColors[item.element];
-                return `<button onclick="setDaewunCheongan('${item.id}')" class="p-1.5 text-center text-sm font-bold rounded border ${isMatch ? `${colors.active} border-transparent shadow` : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:border-violet-300 transition-colors'}">${item.hanja}<br/><span class="text-[10px] font-normal">${item.korean}</span></button>`;
-            }).join('');
-            
-            let dJijiGrid = jijiData.map(item => {
-                const isMatch = daewunJiji.id === item.id;
-                const isYinYangMatch = daewunCheongan.yinyang === item.yinyang;
-                const colors = elementColors[item.element];
-                return `<button ${isYinYangMatch ? '' : 'disabled'} onclick="setDaewunJiji('${item.id}')" class="p-1.5 text-center text-sm font-bold rounded border ${isMatch ? `${colors.active} border-transparent shadow` : isYinYangMatch ? 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:border-violet-300 transition-colors cursor-pointer' : 'bg-neutral-100 border-neutral-100 text-neutral-300 opacity-50 cursor-not-allowed'}">${item.hanja}<br/><span class="text-[10px] font-normal">${item.korean}</span></button>`;
-            }).join('');
-
-            // 선택된 세운 객체
-            const sewunObj = sewunList.find(y => y.year === selectedYear) || sewunList[2];
-            const sewunCheonganData = cheonganData.find(c => c.korean === sewunObj.c);
-            const sewunJijiData = jijiData.find(j => j.korean === sewunObj.j);
-
-            // 십성 계산
-            const daewunCSipseong = getSipseongGeneric(comboCheongan, daewunCheongan, false);
-            const daewunJSipseong = getSipseongGeneric(comboCheongan, daewunJiji, true);
-            const sewunCSipseong = getSipseongGeneric(comboCheongan, sewunCheonganData, false);
-            const sewunJSipseong = getSipseongGeneric(comboCheongan, sewunJijiData, true);
-
-            // 공망/입묘 판단
-            const isDaewunGongmang = myGongmang.includes(daewunJiji.korean);
-            const isSewunGongmang = myGongmang.includes(sewunJijiData.korean);
-            const isDaewunIpmyo = myIpmyo === daewunJiji.korean;
-            const isSewunIpmyo = myIpmyo === sewunJijiData.korean;
-
-            let timelineHtml = `<div class="flex overflow-x-auto hide-scrollbar gap-3 pb-4 px-2 snap-x snap-mandatory">`;
-            sewunList.forEach(s => {
-                const isSelected = s.year === selectedYear;
-                timelineHtml += `
-                    <button onclick="setSelectedYear(${s.year})" class="snap-center shrink-0 w-24 flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${isSelected ? 'bg-violet-600 text-white border-violet-600 shadow-lg scale-105' : 'bg-white border-neutral-200 text-neutral-600 hover:border-violet-300 hover:shadow'}">
-                        <span class="text-xs font-bold mb-1 opacity-80">${s.year}년</span>
-                        <span class="text-xl font-extrabold mb-1">${s.name.split('(')[0]}</span>
-                        <span class="text-[10px]">${s.name.match(/\((.*?)\)/)[1]}</span>
-                    </button>
-                `;
-            });
-            timelineHtml += `</div>`;
-
-            const keywordsD_C = sipseongKeywords[daewunCSipseong] || [];
-            const keywordsD_J = sipseongKeywords[daewunJSipseong] || [];
-            const keywordsS_C = sipseongKeywords[sewunCSipseong] || [];
-            const keywordsS_J = sipseongKeywords[sewunJSipseong] || [];
-
-            return `
-                <div>
-                    <div class="mb-6 border-l-4 border-violet-500 pl-4">
-                        <h2 class="text-2xl font-bold mb-2">대운(大運) / 세운(歲運) 시뮬레이터</h2>
-                        <p class="text-neutral-600">기준 일주(나의 사주)와 시간의 흐름에 따라 들어오는 운의 작용을 분석합니다.</p>
-                    </div>
-
-                    <!-- 1. 기준 설정 영역 -->
-                    <div class="flex flex-col lg:flex-row gap-6 mb-8">
-                        <div class="flex-none bg-emerald-50 border border-emerald-200 rounded-xl p-5 w-full lg:w-1/3">
-                            <h3 class="text-sm font-bold text-emerald-800 mb-3 flex items-center"><i data-lucide="user" class="w-4 h-4 mr-1.5"></i> 나의 기준 일주 (일간)</h3>
-                            <div class="flex items-center gap-4">
-                                <div class="w-16 h-16 flex flex-col items-center justify-center rounded-full bg-white shadow-sm border border-emerald-100">
-                                    <span class="text-2xl font-bold text-emerald-700">${comboCheongan.hanja}</span>
-                                </div>
-                                <div>
-                                    <div class="text-sm text-neutral-500">일간(나를 상징)</div>
-                                    <div class="text-lg font-bold">${comboCheongan.korean} (${comboCheongan.element})</div>
-                                </div>
-                            </div>
-                            <div class="mt-4 pt-3 border-t border-emerald-200">
-                                <div class="text-xs text-emerald-800 font-bold flex items-center mb-1">
-                                    <span class="w-20">공망(空亡) 지지:</span> 
-                                    <span class="bg-white px-2 py-0.5 rounded border border-emerald-200 shadow-sm">${myGongmang.join(', ')}</span>
-                                </div>
-                                <div class="text-xs text-emerald-800 font-bold flex items-center">
-                                    <span class="w-20">입묘(入墓) 지지:</span> 
-                                    <span class="bg-white px-2 py-0.5 rounded border border-emerald-200 shadow-sm">${myIpmyo}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1 bg-white border border-violet-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="text-sm font-bold text-violet-800 mb-3 flex items-center"><i data-lucide="calendar-range" class="w-4 h-4 mr-1.5"></i> 현재 대운(10년 주기) 설정</h3>
-                            <div class="flex gap-4">
-                                <div class="w-1/2">
-                                    <div class="text-xs text-neutral-500 mb-1 font-bold">천간 선택</div>
-                                    <div class="grid grid-cols-5 gap-1">${dCheonganGrid}</div>
-                                </div>
-                                <div class="w-1/2">
-                                    <div class="text-xs text-neutral-500 mb-1 font-bold">지지 선택</div>
-                                    <div class="grid grid-cols-6 gap-1">${dJijiGrid}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 2. 타임라인 (세운) -->
-                    <div class="mb-8">
-                        <h3 class="text-sm font-bold text-neutral-700 mb-3 flex items-center"><i data-lucide="history" class="w-4 h-4 mr-1.5"></i> 연도별 세운 (1년 주기) 선택</h3>
-                        ${timelineHtml}
-                    </div>
-
-                    <!-- 3. 분석 결과표 -->
-                    <div class="bg-neutral-50 rounded-xl p-6 border border-neutral-200 shadow-inner">
-                        <div class="text-center mb-6">
-                            <span class="inline-block px-3 py-1 bg-violet-100 text-violet-800 rounded-full text-xs font-bold mb-2 shadow-sm border border-violet-200">
-                                시뮬레이션 결과
-                            </span>
-                            <h3 class="text-2xl font-extrabold text-neutral-800">${selectedYear}년 ${sewunObj.name}의 운세 흐름</h3>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            
-                            <!-- 대운 분석 -->
-                            <div class="bg-white rounded-lg p-5 border ${isDaewunGongmang || isDaewunIpmyo ? 'border-red-400 ring-2 ring-red-50' : 'border-neutral-200 shadow-sm'}">
-                                <div class="flex items-center justify-between mb-4 pb-2 border-b border-neutral-100">
-                                    <h4 class="font-bold text-violet-700">대운 (10년의 큰 환경)</h4>
-                                    <span class="text-lg font-extrabold bg-violet-50 px-2 py-0.5 rounded text-violet-900">${daewunCheongan.hanja}${daewunJiji.hanja}</span>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <div class="text-xs text-neutral-500 mb-1">천간 (정신적, 외부적 환경)</div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-sm font-bold text-white bg-slate-700 px-2 py-1 rounded">${daewunCSipseong}</span>
-                                    </div>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        ${keywordsD_C.map(k => `<span class="text-[11px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">${k}</span>`).join('')}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-neutral-500 mb-1">지지 (현실적, 내부적 환경)</div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-sm font-bold text-white bg-slate-700 px-2 py-1 rounded">${daewunJSipseong}</span>
-                                        ${isDaewunGongmang ? `<span class="text-xs font-bold text-stone-600 bg-stone-100 border border-stone-400 border-dashed px-1.5 py-0.5 rounded shadow-sm">공망(空亡)</span>` : ''}
-                                        ${isDaewunIpmyo ? `<span class="text-xs font-bold text-neutral-600 bg-neutral-200 border border-neutral-500 px-1.5 py-0.5 rounded shadow-sm">입묘(入墓)</span>` : ''}
-                                    </div>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        ${keywordsD_J.map(k => `<span class="text-[11px] font-medium bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200">${k}</span>`).join('')}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 세운 분석 -->
-                            <div class="bg-white rounded-lg p-5 border ${isSewunGongmang || isSewunIpmyo ? 'border-red-400 ring-2 ring-red-50' : 'border-violet-200 shadow-md ring-2 ring-violet-50'}">
-                                <div class="flex items-center justify-between mb-4 pb-2 border-b border-violet-100">
-                                    <h4 class="font-bold text-violet-700">세운 (당해 연도의 사건/결과)</h4>
-                                    <span class="text-lg font-extrabold bg-violet-600 px-2 py-0.5 rounded text-white">${sewunCheonganData.hanja}${sewunJijiData.hanja}</span>
-                                </div>
-                                
-                                <div class="mb-4">
-                                    <div class="text-xs text-neutral-500 mb-1">당해 천간 (일어나는 사건의 명분)</div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-sm font-bold text-white bg-violet-600 px-2 py-1 rounded shadow-sm">${sewunCSipseong}</span>
-                                    </div>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        ${keywordsS_C.map(k => `<span class="text-[11px] font-medium bg-violet-50 text-violet-700 px-2 py-0.5 rounded border border-violet-200">${k}</span>`).join('')}
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div class="text-xs text-neutral-500 mb-1">당해 지지 (실질적인 체감/결과)</div>
-                                    <div class="flex items-center gap-2 mb-2">
-                                        <span class="text-sm font-bold text-white bg-violet-600 px-2 py-1 rounded shadow-sm">${sewunJSipseong}</span>
-                                        ${isSewunGongmang ? `<span class="text-xs font-bold text-stone-600 bg-stone-100 border border-stone-400 border-dashed px-1.5 py-0.5 rounded shadow-sm">공망(空亡)</span>` : ''}
-                                        ${isSewunIpmyo ? `<span class="text-xs font-bold text-neutral-600 bg-neutral-200 border border-neutral-500 px-1.5 py-0.5 rounded shadow-sm">입묘(入墓)</span>` : ''}
-                                    </div>
-                                    <div class="flex flex-wrap gap-1.5">
-                                        ${keywordsS_J.map(k => `<span class="text-[11px] font-medium bg-violet-50 text-violet-700 px-2 py-0.5 rounded border border-violet-200">${k}</span>`).join('')}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 공망/입묘 경고 문구 -->
-                            ${(isDaewunGongmang || isSewunGongmang || isDaewunIpmyo || isSewunIpmyo) ? `
-                                <div class="col-span-1 md:col-span-2 mt-2 bg-rose-50 border border-rose-200 rounded-lg p-4">
-                                    <h4 class="text-sm font-bold text-rose-800 mb-3 flex items-center">
-                                        <i data-lucide="alert-octagon" class="w-4 h-4 mr-1.5"></i> 주의가 필요한 운성 (공망 / 입묘)
-                                    </h4>
-                                    <ul class="text-sm text-rose-700 space-y-2 list-disc list-inside">
-                                        ${isDaewunGongmang ? `<li><b>대운 공망:</b> 10년간의 환경이 공망에 들어 겉보기엔 화려해도 실속을 채우기 어려울 수 있으니 내실을 다져야 합니다.</li>` : ''}
-                                        ${isSewunGongmang ? `<li><b>세운 공망:</b> 올해는 추진하는 일이 지연되거나 헛수고가 되기 쉬우니, 무리한 확장을 자제하고 현상 유지에 힘쓰는 것이 좋습니다.</li>` : ''}
-                                        ${isDaewunIpmyo ? `<li><b>대운 입묘:</b> 10년간 일간(나)의 에너지가 창고에 갇히는 형국으로, 사회적 활동력이 위축되고 건강 관리에 유의해야 하는 시기입니다.</li>` : ''}
-                                        ${isSewunIpmyo ? `<li><b>세운 입묘:</b> 올해는 활동이 정체되고 답답함을 느낄 수 있습니다. 새로운 도약보다는 휴식과 재충전, 학문에 집중하는 시기로 삼으세요.</li>` : ''}
-                                    </ul>
-                                </div>
-                            ` : ''}
-
                         </div>
                     </div>
                 </div>
